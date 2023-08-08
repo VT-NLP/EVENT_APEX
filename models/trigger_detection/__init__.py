@@ -1,0 +1,1 @@
+from .model_template_long import TriggerDetection
