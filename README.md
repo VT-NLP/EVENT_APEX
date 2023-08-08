@@ -5,7 +5,6 @@
 - [Installation](#installation)
 - [Data Preparation](#data-preparation)
 - [Trigger Detection](#trigger-detection)
-- [Argument Detection](#argument-detection)
 - [Citation](#citation)
 - [License](#license)
 
