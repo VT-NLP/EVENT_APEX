@@ -1,0 +1,12 @@
+/shell_command/
+text* 
+/results/
+/logs/ 
+/outputs/
+.DS_Store
+/subs/
+/models/
+__pycache__*
+/error_visualizations*
+/data/*
+/saved_models/*
