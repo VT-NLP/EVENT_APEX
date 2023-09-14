@@ -44,7 +44,7 @@ def main(**kwargs):
     te_dataset = torch.load(config.te_dataset)
     dev_dataset = torch.load(config.dev_dataset)
     tr_dataset = torch.load(config.tr_dataset)
-    te_json = load_from_jsonl(config.test_json)
+    te_json = load_from_jsonl(config.te_json)
     dev_json = load_from_jsonl(config.dev_json)
     # model setup
     model_trigger = TriggerDetection(config)
@@ -75,7 +75,7 @@ def main(**kwargs):
         {'params': [p for n, p in param_optimizer2 if any(nd in n for nd in no_decay)], 'weight_decay': 0.0},
     ]
 
-    N_train = sum([torch.any(x[-1] < config.metadata.event_count) for x in tr_dataset]) + config.sampling * len(
+    N_train = torch.sum(tr_dataset.tensors[-1] < config.metadata.event_count) + config.sampling * len(
         tr_dataset)
     num_train_steps = int(N_train / config.train_batch_size / config.gradient_accumulation_steps * config.EPOCH)
     t_total = num_train_steps
@@ -111,9 +111,10 @@ def main(**kwargs):
             pre_f1 = f1
 
     if best_model[0]:
-        best_model = model_trigger.load_state_dict(torch.load(best_model[0]))
-        f1, precision, recall, date_time = eval_trigger(best_model, te_loader, config, te_json)
-        logging.info('Test')
+        # evaluate on test set
+        model_trigger.load_state_dict(torch.load(best_model[0]))
+        f1, precision, recall, date_time = eval_trigger(model_trigger, te_loader, config, te_json)
+        logging.info('Test results')
         logging.info('time: {}'.format(date_time))
         logging.info('f1_bio: {} |  p:{}  | r:{}'.format(f1, precision, recall))
 
@@ -194,7 +195,7 @@ def eval_trigger(model, dev_loader, config, gold_event):
             feats = model(dataset_id, bert_sentence_in, idxs_to_collect_sent.long(), idxs_to_collect_event.long(),
                           bert_sentence_lengths, pos_tags)
             # get predictions from logits
-            pred = ((feats[:, :, 1] - feats[:, :, 0] - config.trigger_threshold))
+            pred = (feats[:, :, 1] - feats[:, :, 0] - config.trigger_threshold)
             pred = [pred[k, :sent_lengths[k]] for k in range(config.eval_batch_size)]
             if config.few_shot or config.zero_shot:
                 this_pred, this_pred_w_prob = pred_to_event_mention_novel(pred, config.metadata.ids_to_triggers,

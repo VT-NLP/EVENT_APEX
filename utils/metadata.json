@@ -3,10 +3,8 @@
     "Movement:Transport": [
       "Destination",
       "Agent",
-      "Place",
       "Vehicle",
       "Origin",
-      "Victim",
       "Artifact"
     ],
     "Personnel:Elect": [
@@ -21,7 +19,8 @@
     ],
     "Personnel:Nominate": [
       "Person",
-      "Agent"
+      "Agent",
+      "Place"
     ],
     "Personnel:End-Position": [
       "Entity",
@@ -32,7 +31,6 @@
       "Place",
       "Attacker",
       "Instrument",
-      "Victim",
       "Target"
     ],
     "Contact:Meet": [
@@ -76,7 +74,6 @@
     "Life:Die": [
       "Place",
       "Agent",
-      "Person",
       "Instrument",
       "Victim"
     ],
@@ -148,12 +145,15 @@
       "Defendant"
     ],
     "Justice:Appeal": [
+      "Prosecutor",
       "Adjudicator",
       "Place",
+      "Defendant",
       "Plaintiff"
     ],
     "Business:Merge-Org": [
-      "Org"
+      "Org",
+      "Place"
     ],
     "Justice:Extradite": [
       "Origin",
@@ -162,11 +162,13 @@
       "Person"
     ],
     "Life:Divorce": [
-      "Person"
+      "Person",
+      "Place"
     ],
     "Justice:Acquit": [
       "Adjudicator",
-      "Defendant"
+      "Defendant",
+      "Place"
     ]
   },
   "ere": {

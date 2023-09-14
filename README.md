@@ -30,11 +30,11 @@ cd preprocess
 To train the trigger detection model for ACE under supervised learning setting, run
 ```
 export DATA_PATH=$data_folder
-python run_trigger_detection.py main --do_train True --ace True
+python run_trigger_detection.py main --do_train True --ace True --eval_batch_size 33
 ```
 To train the trigger detection model for ERE under few-shot learning setting, run
 ```
-python run_trigger_detection.py main --do_train True --ere True --few_shot True
+python run_trigger_detection.py main --do_train True --ere True --few_shot True --eval_batch_size 10
 ```
 
 
